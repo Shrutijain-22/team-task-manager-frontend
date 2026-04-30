@@ -156,6 +156,36 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
+
+            {data.adminStats.tasksPerUser?.length > 0 && (
+              <div className="bg-white shadow-sm border border-gray-100 rounded-xl p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-6 border-b pb-2">Tasks Per Team Member</h2>
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Member</th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Email</th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Tasks Assigned</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {data.adminStats.tasksPerUser.map((member) => (
+                        <tr key={member.userId} className="hover:bg-gray-50 transition duration-150">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{member.name}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{member.email}</td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+                              {member.count} {member.count === 1 ? 'task' : 'tasks'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

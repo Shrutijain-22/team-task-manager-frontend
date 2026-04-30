@@ -1,101 +1,14 @@
 # Team Task Manager - Frontend
 
-The client-side application for the Team Task Manager platform. Built with React and Vite, it provides a clean, responsive interface for managing projects, assigning tasks, and tracking progress across teams.
+The client-side application for the Team Task Manager platform. Built with React and Vite, it provides a clean, responsive interface for managing projects, assigning tasks, and tracking team progress.
 
 ---
 
-## Table of Contents
+## Overview
 
-- [Project Overview](#project-overview)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Connecting to the Backend](#connecting-to-the-backend)
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Deployment](#deployment)
+This frontend is the user-facing layer of the Team Task Manager. It communicates with the backend REST API to provide authentication, project management, task tracking, and an analytics dashboard.
 
----
-
-## Project Overview
-
-This frontend is the user-facing layer of the Team Task Manager. It communicates with the backend REST API to provide authentication, project management, task tracking, and a real-time analytics dashboard.
-
-The application enforces project-level role logic entirely in the UI — buttons and controls are shown or hidden based on whether the logged-in user is the creator of a given project, matching the backend's authorization model.
-
----
-
-## Tech Stack
-
-| Layer         | Technology                    |
-|---------------|-------------------------------|
-| Framework     | React 18                      |
-| Build Tool    | Vite                          |
-| Routing       | React Router v6               |
-| HTTP Client   | Axios (with request interceptor) |
-| Styling       | Tailwind CSS v3               |
-| Deployment    | Railway (served via `serve`)  |
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js v18 or higher
-- The backend server running locally or deployed
-
-### Installation
-
-```bash
-# Clone the repository
-git clone <your-frontend-repo-url>
-cd team-task-manager-frontend
-
-# Install dependencies
-npm install
-```
-
-### Running Locally
-
-```bash
-npm run dev
-```
-
-The app will be available at `http://localhost:5173` by default.
-
-### Building for Production
-
-```bash
-npm run build
-```
-
-Output is placed in the `dist/` directory.
-
----
-
-## Connecting to the Backend
-
-All API calls are routed through a single Axios instance configured in:
-
-```
-src/api/axios.js
-```
-
-To point the frontend at a different backend, update the `baseURL`:
-
-```js
-const api = axios.create({
-  baseURL: 'https://your-backend-url.up.railway.app',
-});
-```
-
-The Axios interceptor automatically attaches the JWT token from `localStorage` to every outgoing request:
-
-```js
-config.headers.Authorization = `Bearer ${token}`;
-```
-
-For local development, set the `baseURL` to `http://localhost:5000`.
+The application enforces project-level role logic entirely in the UI — buttons and controls are shown or hidden based on whether the logged-in user is the creator of a given project, matching the backend's authorization model precisely.
 
 ---
 
@@ -109,7 +22,7 @@ For local development, set the `baseURL` to `http://localhost:5000`.
 ### Dashboard
 - Personal task metrics: total, completed, pending, overdue
 - Tasks by status breakdown (To Do, In Progress, In Review, Done)
-- Admin overview section (visible only to project creators): total projects, team task breakdown, tasks per user
+- Admin overview section visible only to project creators: total projects, team task breakdown, tasks per user
 
 ### Projects
 - View all projects the user is a member of or has created
@@ -126,8 +39,72 @@ For local development, set the `baseURL` to `http://localhost:5000`.
 - Priority color coding: High (red), Medium (yellow), Low (blue)
 
 ### Navigation
-- Active page highlighted dynamically in the navbar using `useLocation`
+- Active page highlighted dynamically using `useLocation`
 - Logout clears session and redirects to login
+
+---
+
+## Tech Stack
+
+| Layer        | Technology                        |
+|--------------|-----------------------------------|
+| Framework    | React 18                          |
+| Build Tool   | Vite                              |
+| Routing      | React Router v6                   |
+| HTTP Client  | Axios (with JWT request interceptor) |
+| Styling      | Tailwind CSS v3                   |
+| Deployment   | Railway (served via `serve`)      |
+
+---
+
+## Setup
+
+### Prerequisites
+
+- Node.js v18 or higher
+- The backend server running locally or deployed
+
+### Installation
+
+```bash
+git clone <your-frontend-repo-url>
+cd team-task-manager-frontend
+npm install
+```
+
+### Running Locally
+
+```bash
+npm run dev
+```
+
+The app will be available at `http://localhost:5173`.
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+Output is placed in the `dist/` directory.
+
+### Connecting to the Backend
+
+All API calls go through a single Axios instance in `src/api/axios.js`. To point the app at a different backend, update the `baseURL`:
+
+```js
+const api = axios.create({
+  baseURL: 'https://your-backend-url.up.railway.app',
+});
+```
+
+For local development, set the `baseURL` to `http://localhost:5000`.
+
+The Axios interceptor automatically attaches the JWT token from `localStorage` to every request:
+
+```js
+config.headers.Authorization = `Bearer ${token}`;
+```
 
 ---
 
@@ -152,13 +129,14 @@ src/
 
 ---
 
-## Deployment
+## Live Links
 
-The frontend is deployed on **Railway**, served as a static site using the `serve` package.
+| Resource     | URL                                                              |
+|--------------|------------------------------------------------------------------|
+| Frontend App | https://your-frontend-url.up.railway.app                        |
+| Backend API  | https://team-task-manager-backend-production-2da3.up.railway.app |
 
-**Live URL:** `https://your-frontend-url.up.railway.app`
-
-### How it Works
+### Deployment Notes
 
 Railway runs the following sequence on every push to `main`:
 
@@ -166,7 +144,7 @@ Railway runs the following sequence on every push to `main`:
 2. `npm run build` — Vite builds the app into `dist/`
 3. `npm start` — `serve -s dist -l $PORT` starts a static file server in SPA mode
 
-The `railway.json` file in the repository root configures this explicitly:
+The `railway.json` in the repository root configures this:
 
 ```json
 {
@@ -177,18 +155,4 @@ The `railway.json` file in the repository root configures this explicitly:
     "startCommand": "npm start"
   }
 }
-```
-
-### Environment Note
-
-There are no secret environment variables required for the frontend. The backend URL is hardcoded in `src/api/axios.js`. If you need to make this configurable per environment, create a `.env` file:
-
-```env
-VITE_API_BASE_URL=https://your-backend-url.up.railway.app
-```
-
-And update `axios.js`:
-
-```js
-baseURL: import.meta.env.VITE_API_BASE_URL,
 ```
