@@ -27,7 +27,7 @@ The application enforces project-level role logic entirely in the UI — buttons
 ### Projects
 - View all projects the user is a member of or has created
 - Create new projects (available to all authenticated users)
-- Add team members via dropdown (names with emails, pre-filtered to exclude existing members)
+- Add team members via dropdown
 - Remove team members (project creator only, cannot remove self)
 - All member management controls hidden for non-creator users
 
@@ -36,11 +36,7 @@ The application enforces project-level role logic entirely in the UI — buttons
 - Create tasks with title, description, project, assignee, priority, and due date (project creators only)
 - Status update dropdown visible only to the assigned user; all others see a read-only badge
 - Task statuses: To Do, In Progress, In Review, Done
-- Priority color coding: High (red), Medium (yellow), Low (blue)
-
-### Navigation
-- Active page highlighted dynamically using `useLocation`
-- Logout clears session and redirects to login
+- Priority: High, Medium, Low
 
 ---
 
@@ -50,10 +46,8 @@ The application enforces project-level role logic entirely in the UI — buttons
 |--------------|-----------------------------------|
 | Framework    | React 18                          |
 | Build Tool   | Vite                              |
-| Routing      | React Router v6                   |
-| HTTP Client  | Axios (with JWT request interceptor) |
 | Styling      | Tailwind CSS v3                   |
-| Deployment   | Railway (served via `serve`)      |
+| Deployment   | Railway                           |
 
 ---
 
@@ -129,30 +123,8 @@ src/
 
 ---
 
-## Live Links
+## Live Link
 
 | Resource     | URL                                                              |
 |--------------|------------------------------------------------------------------|
-| Frontend App | https://your-frontend-url.up.railway.app                        |
-| Backend API  | https://team-task-manager-backend-production-2da3.up.railway.app |
-
-### Deployment Notes
-
-Railway runs the following sequence on every push to `main`:
-
-1. `npm ci` — clean install of all dependencies
-2. `npm run build` — Vite builds the app into `dist/`
-3. `npm start` — `serve -s dist -l $PORT` starts a static file server in SPA mode
-
-The `railway.json` in the repository root configures this:
-
-```json
-{
-  "build": {
-    "buildCommand": "npm install && npm run build"
-  },
-  "deploy": {
-    "startCommand": "npm start"
-  }
-}
-```
+| Frontend App | https://team-task-manager-frontend-production.up.railway.app     |
