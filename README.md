@@ -33,7 +33,7 @@ The application enforces project-level role logic entirely in the UI — buttons
 | Routing       | React Router v6               |
 | HTTP Client   | Axios (with request interceptor) |
 | Styling       | Tailwind CSS v3               |
-| Deployment    | Railway (served via `serve`)  |
+| Deployment    | Railway                       |
 
 ---
 
